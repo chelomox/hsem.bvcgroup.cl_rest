@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="actividad" idMethod="native" phpName="Actividad">
+    <column name="acti_codigo" phpName="ActiCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="acti_nombre" phpName="ActiNombre" type="VARCHAR" size="255"/>
+    <column name="acti_imagen" phpName="ActiImagen" type="VARCHAR" size="255" required="true"/>
+    <column name="acti_t_actividad" phpName="ActiTActividad" type="INTEGER"/>
+    <column name="acti_hora" phpName="ActiHora" type="INTEGER" size="3"/>
+    <column name="acti_hora_teorica" phpName="ActiHoraTeorica" type="INTEGER" size="2"/>
+    <column name="acti_hora_practica" phpName="ActiHoraPractica" type="INTEGER" size="2"/>
+    <column name="acti_t_hora" phpName="ActiTHora" type="INTEGER"/>
+    <column name="acti_e_actividad" phpName="ActiEActividad" type="INTEGER"/>
+    <column name="acti_t_modalidad" phpName="ActiTModalidad" type="INTEGER"/>
+    <column name="acti_observacion" phpName="ActiObservacion" type="VARCHAR" size="255"/>
+    <column name="acti_vigente" phpName="ActiVigente" type="INTEGER" size="1"/>
+    <column name="acti_r_fecha_creacion" phpName="ActiRFechaCreacion" type="TIMESTAMP"/>
+    <column name="acti_r_fecha_modificacion" phpName="ActiRFechaModificacion" type="TIMESTAMP"/>
+    <column name="acti_r_usuario" phpName="ActiRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="e_actividad" name="actividad_e_actividad_fk" onUpdate="CASCADE">
+      <reference local="acti_e_actividad" foreign="eac_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_actividad" name="actividad_t_actividad_fk" onUpdate="CASCADE">
+      <reference local="acti_t_actividad" foreign="tac_tipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_hora" name="actividad_t_hora_fk" onUpdate="CASCADE">
+      <reference local="acti_t_hora" foreign="tho_tipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_modalidad" name="actividad_t_modalidad_fk" onUpdate="CASCADE">
+      <reference local="acti_t_modalidad" foreign="tmo_tipo"/>
+    </foreign-key>
+    <index name="actividad_t_actividad">
+      <index-column name="acti_t_actividad"/>
+    </index>
+    <index name="actividad_t_hora">
+      <index-column name="acti_t_hora"/>
+    </index>
+    <index name="actividad_e_actividad">
+      <index-column name="acti_e_actividad"/>
+    </index>
+    <index name="actividad_t_modalidad">
+      <index-column name="acti_t_modalidad"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="actividad_cargo" idMethod="native" phpName="ActividadCargo">
+    <column name="acca_c_actividad" phpName="AccaCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="acca_c_cargo" phpName="AccaCCargo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="acca_vigente" phpName="AccaVigente" type="INTEGER" size="1"/>
+    <column name="acca_r_fecha_creacion" phpName="AccaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="acca_r_fecha_modificacion" phpName="AccaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="acca_r_usuario" phpName="AccaRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="actividad" name="actividad_cargo_actividad_fk" onUpdate="CASCADE">
+      <reference local="acca_c_actividad" foreign="acti_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="cargo" name="actividad_cargo_cargo_fk" onUpdate="CASCADE">
+      <reference local="acca_c_cargo" foreign="carg_codigo"/>
+    </foreign-key>
+    <index name="actividad_cargo_actividad">
+      <index-column name="acca_c_actividad"/>
+    </index>
+    <index name="actividad_cargo_cargo">
+      <index-column name="acca_c_cargo"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="actividad_objetivo" idMethod="native" phpName="ActividadObjetivo">
+    <column name="acob_c_actividad" phpName="AcobCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="acob_c_objetivo" phpName="AcobCObjetivo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="acob_cantidad_preguntas" phpName="AcobCantidadPreguntas" type="INTEGER" required="true"/>
+    <column name="acob_vigente" phpName="AcobVigente" type="INTEGER" size="1"/>
+    <column name="acob_r_fecha_creacion" phpName="AcobRFechaCreacion" type="TIMESTAMP"/>
+    <column name="acob_r_fecha_modificacion" phpName="AcobRFechaModificacion" type="TIMESTAMP"/>
+    <column name="acob_r_usuario" phpName="AcobRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="actividad" name="actividad_objetivo_actividad_fk" onUpdate="CASCADE">
+      <reference local="acob_c_actividad" foreign="acti_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="objetivo" name="actividad_objetivo_objetivo_fk" onUpdate="CASCADE">
+      <reference local="acob_c_objetivo" foreign="obje_codigo"/>
+    </foreign-key>
+    <index name="actividad_objetivo_actividad_fk">
+      <index-column name="acob_c_actividad"/>
+    </index>
+    <index name="actividad_objetivo_objetivo_fk">
+      <index-column name="acob_c_objetivo"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="anios_experiencia_cargo" idMethod="native" phpName="AniosExperienciaCargo">
+    <column name="anexca_codigo" phpName="AnexcaCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="anexca_descripcion" phpName="AnexcaDescripcion" type="VARCHAR" size="255"/>
+    <column name="anexca_vigente" phpName="AnexcaVigente" type="INTEGER" size="1"/>
+    <column name="anexca_r_fecha_creacion" phpName="AnexcaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="anexca_r_fecha_modificacion" phpName="AnexcaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="anexca_r_usuario" phpName="AnexcaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="area" idMethod="native" phpName="Area">
+    <column name="area_codigo" phpName="AreaCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="area_c_institucion" phpName="AreaCInstitucion" type="INTEGER" required="true"/>
+    <column name="area_sigla" phpName="AreaSigla" type="VARCHAR" size="10"/>
+    <column name="area_descripcion" phpName="AreaDescripcion" type="VARCHAR" size="255"/>
+    <column name="area_r_fecha_creacion" phpName="AreaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="area_r_fecha_modificacion" phpName="AreaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="area_r_usuario" phpName="AreaRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="institucion" name="area_institucion_fk" onUpdate="CASCADE">
+      <reference local="area_c_institucion" foreign="inst_codigo"/>
+    </foreign-key>
+    <index name="area_actividad_fk">
+      <index-column name="area_c_institucion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="cargo" idMethod="native" phpName="Cargo">
+    <column name="carg_codigo" phpName="CargCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="carg_c_especialidad" phpName="CargCEspecialidad" type="INTEGER"/>
+    <column name="carg_t_relacion_faena" phpName="CargTRelacionFaena" type="INTEGER"/>
+    <column name="carg_sigla" phpName="CargSigla" type="VARCHAR" size="10"/>
+    <column name="carg_descripcion" phpName="CargDescripcion" type="VARCHAR" size="255"/>
+    <column name="carg_vigente" phpName="CargVigente" type="INTEGER" size="1"/>
+    <column name="carg_r_fecha_creacion" phpName="CargRFechaCreacion" type="TIMESTAMP"/>
+    <column name="carg_r_fecha_modificacion" phpName="CargRFechaModificacion" type="TIMESTAMP"/>
+    <column name="carg_r_usuario" phpName="CargRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="especialidad" name="cargo_especialidad_fk" onUpdate="CASCADE">
+      <reference local="carg_c_especialidad" foreign="espe_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_relacion_faena" name="cargo_t_relacion_faena_fk" onUpdate="CASCADE">
+      <reference local="carg_t_relacion_faena" foreign="trefa_tipo"/>
+    </foreign-key>
+    <index name="cargo_especialidad_fk">
+      <index-column name="carg_c_especialidad"/>
+    </index>
+    <index name="cargo_t_relacion_faena_fk">
+      <index-column name="carg_t_relacion_faena"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="cargo_grupo_sence" idMethod="native" phpName="CargoGrupoSence">
+    <column name="cagrse_c_cargo" phpName="CagrseCCargo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="cagrse_g_grupo_sence" phpName="CagrseGGrupoSence" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="cagrse_vigente" phpName="CagrseVigente" type="INTEGER" size="1"/>
+    <column name="cagrse_r_fecha_creacion" phpName="CagrseRFechaCreacion" type="TIMESTAMP"/>
+    <column name="cagrse_r_fecha_modificacion" phpName="CagrseRFechaModificacion" type="TIMESTAMP"/>
+    <column name="cagrse_r_usuario" phpName="CagrseRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="cargo" name="cargo_grupo_sence_cargo_fk" onUpdate="CASCADE">
+      <reference local="cagrse_c_cargo" foreign="carg_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="grupo_sence" name="cargo_grupo_sence_grupo_sence_fk" onUpdate="CASCADE">
+      <reference local="cagrse_g_grupo_sence" foreign="grse_grupo"/>
+    </foreign-key>
+    <index name="cargo_grupo_sence_cargo">
+      <index-column name="cagrse_c_cargo"/>
+    </index>
+    <index name="cargo_grupo_sence_grupo_sence">
+      <index-column name="cagrse_g_grupo_sence"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="comuna" idMethod="native" phpName="Comuna">
+    <column name="comu_codigo" phpName="ComuCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="comu_nombre" phpName="ComuNombre" type="VARCHAR" size="55"/>
+    <column name="comu_c_provincia" phpName="ComuCProvincia" type="INTEGER"/>
+    <column name="comu_r_fecha_creacion" phpName="ComuRFechaCreacion" type="TIMESTAMP"/>
+    <column name="comu_r_fecha_modificacion" phpName="ComuRFechaModificacion" type="TIMESTAMP"/>
+    <column name="comu_r_usuario" phpName="ComuRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="provincia" name="comuna_provincia_fk" onUpdate="CASCADE">
+      <reference local="comu_c_provincia" foreign="prov_codigo"/>
+    </foreign-key>
+    <index name="comuna_provincia">
+      <index-column name="comu_c_provincia"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="detalle_pregunta" idMethod="native" phpName="DetallePregunta">
+    <column name="depr_c_pregunta" phpName="DeprCPregunta" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="depr_c_opcion_pregunta" phpName="DeprCOpcionPregunta" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="depr_es_correcta" phpName="DeprEsCorrecta" type="INTEGER" size="1"/>
+    <column name="depr_orden" phpName="DeprOrden" type="INTEGER" size="2"/>
+    <column name="depr_vigente" phpName="DeprVigente" type="INTEGER" size="1"/>
+    <column name="depr_r_fecha_creacion" phpName="DeprRFechaCreacion" type="TIMESTAMP"/>
+    <column name="depr_r_fecha_modificacion" phpName="DeprRFechaModificacion" type="TIMESTAMP"/>
+    <column name="depr_r_usuario" phpName="DeprRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="opcion_pregunta" name="detalle_pregunta_opcion_pregunta_fk" onUpdate="CASCADE">
+      <reference local="depr_c_opcion_pregunta" foreign="oppr_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="pregunta" name="detalle_pregunta_pregunta_fk" onUpdate="CASCADE">
+      <reference local="depr_c_pregunta" foreign="preg_codigo"/>
+    </foreign-key>
+    <index name="detalle_pregunta_pregunta">
+      <index-column name="depr_c_pregunta"/>
+    </index>
+    <index name="detalle_pregunta_opcion_pregunta">
+      <index-column name="depr_c_opcion_pregunta"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="dictacion" idMethod="native" phpName="Dictacion">
+    <column name="dict_c_actividad" phpName="DictCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="dict_numero" phpName="DictNumero" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="dict_fecha_inicio" phpName="DictFechaInicio" type="VARCHAR" size="20"/>
+    <column name="dict_fecha_termino" phpName="DictFechaTermino" type="VARCHAR" size="20"/>
+    <column name="dict_e_dictacion" phpName="DictEDictacion" type="INTEGER"/>
+    <column name="dict_c_resolucion" phpName="DictCResolucion" type="INTEGER"/>
+    <column name="dict_t_certificado" phpName="DictTCertificado" type="INTEGER"/>
+    <column name="dict_certificado_participacion" phpName="DictCertificadoParticipacion" type="INTEGER" size="1"/>
+    <column name="dict_t_calificacion" phpName="DictTCalificacion" type="INTEGER"/>
+    <column name="dict_asistencia_minima" phpName="DictAsistenciaMinima" type="INTEGER" size="3"/>
+    <column name="dict_nota_minima" phpName="DictNotaMinima" type="INTEGER" size="3"/>
+    <column name="dict_cobertura" phpName="DictCobertura" type="VARCHAR" size="1"/>
+    <column name="dict_valor" phpName="DictValor" type="VARCHAR" size="10"/>
+    <column name="dict_t_moneda" phpName="DictTMoneda" type="INTEGER"/>
+    <column name="dict_c_comuna" phpName="DictCComuna" type="INTEGER"/>
+    <column name="dict_direccion" phpName="DictDireccion" type="VARCHAR" size="10"/>
+    <column name="dict_telefono" phpName="DictTelefono" type="VARCHAR" size="10"/>
+    <column name="dict_fax" phpName="DictFax" type="VARCHAR" size="10"/>
+    <column name="dict_email" phpName="DictEmail" type="VARCHAR" size="19"/>
+    <column name="dict_cupo" phpName="DictCupo" type="INTEGER" size="2"/>
+    <column name="dict_t_evaluacion" phpName="DictTEvaluacion" type="INTEGER"/>
+    <column name="dict_t_capacitacion" phpName="DictTCapacitacion" type="INTEGER"/>
+    <column name="dict_observacion" phpName="DictObservacion" type="VARCHAR" size="255"/>
+    <column name="dict_vigente" phpName="DictVigente" type="INTEGER" size="1"/>
+    <column name="dict_r_fecha_creacion" phpName="DictRFechaCreacion" type="TIMESTAMP"/>
+    <column name="dict_r_fecha_modificacion" phpName="DictRFechaModificacion" type="TIMESTAMP"/>
+    <column name="dict_r_usuario" phpName="DictRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="actividad" name="dictacion_actividad_fk" onUpdate="CASCADE">
+      <reference local="dict_c_actividad" foreign="acti_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="comuna" name="dictacion_comuna_fk" onUpdate="CASCADE">
+      <reference local="dict_c_comuna" foreign="comu_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="e_dictacion" name="dictacion_e_dictacion_fk" onUpdate="CASCADE">
+      <reference local="dict_e_dictacion" foreign="edi_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_calificacion" name="dictacion_t_calificacion_fk">
+      <reference local="dict_t_calificacion" foreign="tcal_tipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_certificado" name="dictacion_t_certificado_fk" onUpdate="CASCADE">
+      <reference local="dict_t_certificado" foreign="tce_tipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_evaluacion" name="dictacion_t_evaluacion_fk" onUpdate="CASCADE">
+      <reference local="dict_t_evaluacion" foreign="tev_tipo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_moneda" name="dictacion_t_moneda_fk" onUpdate="CASCADE">
+      <reference local="dict_t_moneda" foreign="tmon_tipo"/>
+    </foreign-key>
+    <index name="dictacion_e_dictacion">
+      <index-column name="dict_e_dictacion"/>
+    </index>
+    <index name="dictacion_resolucion">
+      <index-column name="dict_c_resolucion"/>
+    </index>
+    <index name="dictacion_t_certificado">
+      <index-column name="dict_t_certificado"/>
+    </index>
+    <index name="dictacion_t_calificacion">
+      <index-column name="dict_t_calificacion"/>
+    </index>
+    <index name="dictacion_t_moneda">
+      <index-column name="dict_t_moneda"/>
+    </index>
+    <index name="dictacion_comuna">
+      <index-column name="dict_c_comuna"/>
+    </index>
+    <index name="dictacion_t_evaluacion">
+      <index-column name="dict_t_evaluacion"/>
+    </index>
+    <index name="dictacion_t_capacitacion">
+      <index-column name="dict_t_capacitacion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="direccion" idMethod="native" phpName="Direccion">
+    <column name="dire_c_persona" phpName="DireCPersona" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="dire_t_direccion" phpName="DireTDireccion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="dire_c_comuna" phpName="DireCComuna" type="INTEGER"/>
+    <column name="dire_c_pais" phpName="DireCPais" type="INTEGER"/>
+    <column name="dire_detalle" phpName="DireDetalle" type="VARCHAR" size="255"/>
+    <column name="dire_codigo_postal" phpName="DireCodigoPostal" type="VARCHAR" size="10"/>
+    <column name="dire_telefono" phpName="DireTelefono" type="VARCHAR" size="15"/>
+    <column name="dire_r_fecha_creacion" phpName="DireRFechaCreacion" type="TIMESTAMP"/>
+    <column name="dire_r_fecha_modificacion" phpName="DireRFechaModificacion" type="TIMESTAMP"/>
+    <column name="dire_r_usuario" phpName="DireRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="comuna" name="direccion_comuna_fk" onUpdate="CASCADE">
+      <reference local="dire_c_comuna" foreign="comu_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="pais" name="direccion_pais_fk" onUpdate="CASCADE">
+      <reference local="dire_c_pais" foreign="pais_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="persona" name="direccion_persona_fk" onUpdate="CASCADE">
+      <reference local="dire_c_persona" foreign="pers_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_direccion" name="direccion_t_direccion_fk" onUpdate="CASCADE">
+      <reference local="dire_t_direccion" foreign="tdir_tipo"/>
+    </foreign-key>
+    <index name="direccion_persona">
+      <index-column name="dire_c_persona"/>
+    </index>
+    <index name="direccion_t_direccion">
+      <index-column name="dire_t_direccion"/>
+    </index>
+    <index name="direccion_comuna">
+      <index-column name="dire_c_comuna"/>
+    </index>
+    <index name="direccion_pais">
+      <index-column name="dire_c_pais"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_actividad" idMethod="native" phpName="EActividad">
+    <column name="eac_estado" phpName="EacEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="eac_descripcion" phpName="EacDescripcion" type="VARCHAR" size="255"/>
+    <column name="eac_r_fecha_creacion" phpName="EacRFechaCreacion" type="TIMESTAMP"/>
+    <column name="eac_r_fecha_modificacion" phpName="EacRFechaModificacion" type="TIMESTAMP"/>
+    <column name="eac_r_usuario" phpName="EacRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_dictacion" idMethod="native" phpName="EDictacion">
+    <column name="edi_estado" phpName="EdiEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="edi_descripcion" phpName="EdiDescripcion" type="VARCHAR" size="255"/>
+    <column name="edi_r_fecha_creacion" phpName="EdiRFechaCreacion" type="TIMESTAMP"/>
+    <column name="edi_r_fecha_modificacion" phpName="EdiRFechaModificacion" type="TIMESTAMP"/>
+    <column name="edi_r_usuario" phpName="EdiRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_evaluacion_aplicada" idMethod="native" phpName="EEvaluacionAplicada">
+    <column name="eeva_estado" phpName="EevaEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="eeva_descripcion" phpName="EevaDescripcion" type="VARCHAR" size="255"/>
+    <column name="eeva_vigente" phpName="EevaVigente" type="INTEGER" size="1"/>
+    <column name="eeva_r_fecha_creacion" phpName="EevaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="eeva_r_fecha_modificacion" phpName="EevaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="eeva_r_usuario" phpName="EevaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_finalizacion" idMethod="native" phpName="EFinalizacion">
+    <column name="efin_estado" phpName="EfinEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="efin_t_calificacion" phpName="EfinTCalificacion" type="INTEGER"/>
+    <column name="efin_resultado" phpName="EfinResultado" type="VARCHAR" size="1"/>
+    <column name="efin_descripcion" phpName="EfinDescripcion" type="VARCHAR" size="255"/>
+    <column name="efin_cota_inferior" phpName="EfinCotaInferior" type="INTEGER" size="2"/>
+    <column name="efin_cota_superior" phpName="EfinCotaSuperior" type="VARCHAR" size="3"/>
+    <column name="efin_r_fecha_creacion" phpName="EfinRFechaCreacion" type="TIMESTAMP"/>
+    <column name="efin_r_fecha_modificacion" phpName="EfinRFechaModificacion" type="TIMESTAMP"/>
+    <column name="efin_r_usuario" phpName="EfinRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="t_calificacion" name="e_finalizacion_t_calificacion" onUpdate="CASCADE">
+      <reference local="efin_t_calificacion" foreign="tcal_tipo"/>
+    </foreign-key>
+    <index name="e_finalizacion_t_calificacion">
+      <index-column name="efin_t_calificacion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_inscripcion" idMethod="native" phpName="EInscripcion">
+    <column name="eins_estado" phpName="EinsEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="eins_descripcion" phpName="EinsDescripcion" type="VARCHAR" size="255"/>
+    <column name="eins_r_fecha_creacion" phpName="EinsRFechaCreacion" type="TIMESTAMP"/>
+    <column name="eins_r_fecha_modificacion" phpName="EinsRFechaModificacion" type="TIMESTAMP"/>
+    <column name="eins_r_usuario" phpName="EinsRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_inscripcion_evaluacion_aplicada" idMethod="native" phpName="EInscripcionEvaluacionAplicada">
+    <column name="eiea_estado" phpName="EieaEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="eiea_descripcion" phpName="EieaDescripcion" type="VARCHAR" size="255"/>
+    <column name="eiea_r_fecha_creacion" phpName="EieaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="eiea_r_fecha_modificacion" phpName="EieaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="eiea_r_usuario" phpName="EieaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="e_respuesta_aplicada" idMethod="native" phpName="ERespuestaAplicada">
+    <column name="erea_estado" phpName="EreaEstado" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="erea_descripcion" phpName="EreaDescripcion" type="VARCHAR" size="255"/>
+    <column name="erea_r_fecha_creacion" phpName="EreaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="erea_r_fecha_modificacion" phpName="EreaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="erea_r_usuario" phpName="EreaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="escolaridad" idMethod="native" phpName="Escolaridad">
+    <column name="esco_codigo" phpName="EscoCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="esco_descripcion" phpName="EscoDescripcion" type="VARCHAR" size="255"/>
+    <column name="esco_vigente" phpName="EscoVigente" type="INTEGER" size="1"/>
+    <column name="esco_r_fecha_creacion" phpName="EscoRFechaCreacion" type="TIMESTAMP"/>
+    <column name="esco_r_fecha_modificacion" phpName="EscoRFechaModificacion" type="TIMESTAMP"/>
+    <column name="esco_r_usuario" phpName="EscoRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="especialidad" idMethod="native" phpName="Especialidad">
+    <column name="espe_codigo" phpName="EspeCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="espe_c_institucion" phpName="EspeCInstitucion" type="INTEGER"/>
+    <column name="espe_sigla" phpName="EspeSigla" type="VARCHAR" size="15"/>
+    <column name="espe_descripcion" phpName="EspeDescripcion" type="VARCHAR" size="255"/>
+    <column name="espe_vigente" phpName="EspeVigente" type="INTEGER" size="1"/>
+    <column name="espe_r_fecha_creacion" phpName="EspeRFechaCreacion" type="TIMESTAMP"/>
+    <column name="espe_r_fecha_modificacion" phpName="EspeRFechaModificacion" type="TIMESTAMP"/>
+    <column name="espe_r_usuario" phpName="EspeRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="institucion" name="especialidad_institucion_fk" onUpdate="CASCADE">
+      <reference local="espe_c_institucion" foreign="inst_codigo"/>
+    </foreign-key>
+    <index name="especialidad_institucion">
+      <index-column name="espe_c_institucion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="estado_civil" idMethod="native" phpName="EstadoCivil">
+    <column name="esci_codigo" phpName="EsciCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="esci_descripcion" phpName="EsciDescripcion" type="VARCHAR" size="255"/>
+    <column name="esci_r_fecha_creacion" phpName="EsciRFechaCreacion" type="TIMESTAMP"/>
+    <column name="esci_r_fecha_modificacion" phpName="EsciRFechaModificacion" type="TIMESTAMP"/>
+    <column name="esci_r_usuario" phpName="EsciRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="evaluacion" idMethod="native" phpName="Evaluacion">
+    <column name="eval_codigo" phpName="EvalCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="eval_t_evaluacion" phpName="EvalTEvaluacion" type="INTEGER"/>
+    <column name="eval_titulo" phpName="EvalTitulo" type="VARCHAR" size="255"/>
+    <column name="eval_descripcion" phpName="EvalDescripcion" type="VARCHAR" size="255"/>
+    <column name="eval_vigente" phpName="EvalVigente" type="INTEGER" size="1"/>
+    <column name="eval_r_fecha_creacion" phpName="EvalRFechaCreacion" type="TIMESTAMP"/>
+    <column name="eval_r_fecha_modificacion" phpName="EvalRFechaModificacion" type="TIMESTAMP"/>
+    <column name="eval_r_usuario" phpName="EvalRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="t_evaluacion" name="evaluacion_t_evaluacion_fk" onUpdate="CASCADE">
+      <reference local="eval_t_evaluacion" foreign="tev_tipo"/>
+    </foreign-key>
+    <index name="evaluacion_t_evaluacion">
+      <index-column name="eval_t_evaluacion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="evaluacion_aplicada" idMethod="native" phpName="EvaluacionAplicada">
+    <column name="evap_c_actividad" phpName="EvapCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evap_numero_dictacion" phpName="EvapNumeroDictacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evap_c_evaluacion" phpName="EvapCEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evap_numero_evaluacion" phpName="EvapNumeroEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evap_titulo" phpName="EvapTitulo" type="VARCHAR" size="255" required="true"/>
+    <column name="evap_descripcion" phpName="EvapDescripcion" type="VARCHAR" size="255" required="true"/>
+    <column name="evap_orden" phpName="EvapOrden" type="INTEGER"/>
+    <column name="evap_e_evaluacion_aplicada" phpName="EvapEEvaluacionAplicada" type="INTEGER"/>
+    <column name="evap_t_evaluacion_aplicada" phpName="EvapTEvaluacionAplicada" type="INTEGER"/>
+    <column name="evap_vigente" phpName="EvapVigente" type="INTEGER" size="1"/>
+    <column name="evap_r_fecha_creacion" phpName="EvapRFechaCreacion" type="TIMESTAMP"/>
+    <column name="evap_r_fecha_modificacion" phpName="EvapRFechaModificacion" type="TIMESTAMP"/>
+    <column name="evap_r_usuario" phpName="EvapRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="dictacion" name="evaluacion_aplicada_dictacion_fk" onUpdate="CASCADE">
+      <reference local="evap_c_actividad" foreign="dict_c_actividad"/>
+      <reference local="evap_numero_dictacion" foreign="dict_numero"/>
+    </foreign-key>
+    <foreign-key foreignTable="e_evaluacion_aplicada" name="evaluacion_aplicada_e_evaluacion_aplicada_fk" onUpdate="CASCADE">
+      <reference local="evap_e_evaluacion_aplicada" foreign="eeva_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="evaluacion" name="evaluacion_aplicada_evaluacion_fk" onUpdate="CASCADE">
+      <reference local="evap_c_evaluacion" foreign="eval_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_evaluacion_aplicada" name="evaluacion_aplicada_t_evaluacion_aplicada_fk" onUpdate="CASCADE">
+      <reference local="evap_t_evaluacion_aplicada" foreign="teva_tipo"/>
+    </foreign-key>
+    <index name="evaluacion_aplicada_dictacion">
+      <index-column name="evap_c_actividad"/>
+      <index-column name="evap_numero_dictacion"/>
+    </index>
+    <index name="evaluacion_aplicada_evaluacion">
+      <index-column name="evap_c_evaluacion"/>
+    </index>
+    <index name="evaluacion_aplicada_e_evaluacion_aplicada">
+      <index-column name="evap_e_evaluacion_aplicada"/>
+    </index>
+    <index name="evaluacion_aplicada_t_evaluacion_aplicada">
+      <index-column name="evap_t_evaluacion_aplicada"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="evaluacion_marcador" idMethod="native" phpName="EvaluacionMarcador">
+    <column name="evma_c_evaluacion" phpName="EvmaCEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evma_c_marcador" phpName="EvmaCMarcador" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="evma_vigente" phpName="EvmaVigente" type="INTEGER" size="1"/>
+    <column name="evma_r_fecha_creacion" phpName="EvmaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="evma_r_fecha_modificacion" phpName="EvmaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="evma_r_usuario" phpName="EvmaRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="evaluacion" name="evaluacion_marcador_evaluacion_fk" onUpdate="CASCADE">
+      <reference local="evma_c_evaluacion" foreign="eval_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="marcador" name="evaluacion_marcador_marcador_fk" onUpdate="CASCADE">
+      <reference local="evma_c_marcador" foreign="marc_codigo"/>
+    </foreign-key>
+    <index name="evaluacion_marcador_evaluacion">
+      <index-column name="evma_c_evaluacion"/>
+    </index>
+    <index name="evaluacion_marcador_marcador">
+      <index-column name="evma_c_marcador"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="evaluacion_pregunta" idMethod="native" phpName="EvaluacionPregunta">
+    <column name="evpr_codigo" phpName="EvprCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="evpr_c_evaluacion" phpName="EvprCEvaluacion" type="INTEGER" required="true"/>
+    <column name="evpr_c_pregunta" phpName="EvprCPregunta" type="INTEGER" required="true"/>
+    <column name="evpr_c_objetivo" phpName="EvprCObjetivo" type="INTEGER" required="true"/>
+    <column name="evpr_c_seccion" phpName="EvprCSeccion" type="INTEGER" required="true"/>
+    <column name="evpr_orden" phpName="EvprOrden" type="INTEGER" size="1"/>
+    <column name="evpr_r_fecha_creacion" phpName="EvprRFechaCreacion" type="TIMESTAMP"/>
+    <column name="evpr_r_fecha_modificacion" phpName="EvprRFechaModificacion" type="TIMESTAMP"/>
+    <column name="evpr_r_usuario" phpName="EvprRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="evaluacion" name="evaluacion_pregunta_evaluacion_fk" onUpdate="CASCADE">
+      <reference local="evpr_c_evaluacion" foreign="eval_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="objetivo" name="evaluacion_pregunta_objetivo_fk" onUpdate="CASCADE">
+      <reference local="evpr_c_objetivo" foreign="obje_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="pregunta" name="evaluacion_pregunta_pregunta_fk" onUpdate="CASCADE">
+      <reference local="evpr_c_pregunta" foreign="preg_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="seccion" name="evaluacion_pregunta_seccion_fk" onUpdate="CASCADE">
+      <reference local="evpr_c_seccion" foreign="secc_codigo"/>
+    </foreign-key>
+    <index name="evaluacion_pregunta_evaluacion">
+      <index-column name="evpr_c_evaluacion"/>
+    </index>
+    <index name="evaluacion_pregunta_pregunta">
+      <index-column name="evpr_c_pregunta"/>
+    </index>
+    <index name="evaluacion_pregunta_objetivo">
+      <index-column name="evpr_c_objetivo"/>
+    </index>
+    <index name="evaluacion_pregunta_seccion">
+      <index-column name="evpr_c_seccion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="facilitador" idMethod="native" phpName="Facilitador">
+    <column name="faci_c_actividad" phpName="FaciCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="faci_numero_dictacion" phpName="FaciNumeroDictacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="faci_c_persona" phpName="FaciCPersona" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="faci_r_fecha_creacion" phpName="FaciRFechaCreacion" type="TIMESTAMP"/>
+    <column name="faci_r_fecha_modificacion" phpName="FaciRFechaModificacion" type="TIMESTAMP"/>
+    <column name="faci_r_usuario" phpName="FaciRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="dictacion" name="facilitador_dictacion_fk" onUpdate="CASCADE">
+      <reference local="faci_c_actividad" foreign="dict_c_actividad"/>
+      <reference local="faci_numero_dictacion" foreign="dict_numero"/>
+    </foreign-key>
+    <foreign-key foreignTable="persona" name="facilitador_persona_fk" onUpdate="CASCADE">
+      <reference local="faci_c_persona" foreign="pers_codigo"/>
+    </foreign-key>
+    <index name="facilitador_dictacion">
+      <index-column name="faci_c_actividad"/>
+      <index-column name="faci_numero_dictacion"/>
+    </index>
+    <index name="facilitador_persona">
+      <index-column name="faci_c_persona"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="gerencia" idMethod="native" phpName="Gerencia">
+    <column name="gere_codigo" phpName="GereCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="gere_c_institucion" phpName="GereCInstitucion" type="INTEGER"/>
+    <column name="gere_sigla" phpName="GereSigla" type="VARCHAR" size="10"/>
+    <column name="gere_descripcion" phpName="GereDescripcion" type="VARCHAR" size="255"/>
+    <column name="gere_r_fecha_creacion" phpName="GereRFechaCreacion" type="TIMESTAMP"/>
+    <column name="gere_r_fecha_modificacion" phpName="GereRFechaModificacion" type="TIMESTAMP"/>
+    <column name="gere_r_usuario" phpName="GereRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="institucion" name="gerencia_institucion_fk" onUpdate="CASCADE">
+      <reference local="gere_c_institucion" foreign="inst_codigo"/>
+    </foreign-key>
+    <index name="gerencia_institucion">
+      <index-column name="gere_c_institucion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="grupo_sence" idMethod="native" phpName="GrupoSence">
+    <column name="grse_grupo" phpName="GrseGrupo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="grse_codigo_sence" phpName="GrseCodigoSence" type="VARCHAR" size="25"/>
+    <column name="grse_nombre_grupo" phpName="GrseNombreGrupo" type="VARCHAR" size="255"/>
+    <column name="grse_vigente" phpName="GrseVigente" type="INTEGER" size="1"/>
+    <column name="cagrse_r_fecha_creacion" phpName="CagrseRFechaCreacion" type="TIMESTAMP"/>
+    <column name="cagrse_r_fecha_modificacion" phpName="CagrseRFechaModificacion" type="TIMESTAMP"/>
+    <column name="cagrse_r_usuario" phpName="CagrseRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="inscripcion" idMethod="native" phpName="Inscripcion">
+    <column name="insc_c_actividad" phpName="InscCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="insc_numero_dictacion" phpName="InscNumeroDictacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="insc_c_trabajador" phpName="InscCTrabajador" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="insc_e_inscripcion" phpName="InscEInscripcion" type="INTEGER"/>
+    <column name="insc_e_finalizacion" phpName="InscEFinalizacion" type="INTEGER"/>
+    <column name="insc_grupo" phpName="InscGrupo" type="INTEGER"/>
+    <column name="insc_asistencia" phpName="InscAsistencia" type="INTEGER" size="3"/>
+    <column name="insc_nota" phpName="InscNota" type="VARCHAR" size="10"/>
+    <column name="insc_resultado" phpName="InscResultado" type="VARCHAR" size="10"/>
+    <column name="insc_r_fecha_creacion" phpName="InscRFechaCreacion" type="TIMESTAMP"/>
+    <column name="insc_r_fecha_modificacion" phpName="InscRFechaModificacion" type="TIMESTAMP"/>
+    <column name="insc_r_usuario" phpName="InscRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="dictacion" name="inscripcion_dictacion_fk">
+      <reference local="insc_c_actividad" foreign="dict_c_actividad"/>
+      <reference local="insc_numero_dictacion" foreign="dict_numero"/>
+    </foreign-key>
+    <foreign-key foreignTable="e_finalizacion" name="inscripcion_e_finalizacion_fk" onUpdate="CASCADE">
+      <reference local="insc_e_finalizacion" foreign="efin_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="e_inscripcion" name="inscripcion_e_inscripcion_fk" onUpdate="CASCADE">
+      <reference local="insc_e_inscripcion" foreign="eins_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="trabajador" name="inscripcion_trabajador_fk">
+      <reference local="insc_c_trabajador" foreign="trab_codigo"/>
+    </foreign-key>
+    <index name="inscripcion_dictacion">
+      <index-column name="insc_c_actividad"/>
+      <index-column name="insc_numero_dictacion"/>
+    </index>
+    <index name="inscripcion_trabajador">
+      <index-column name="insc_c_trabajador"/>
+    </index>
+    <index name="inscripcion_e_inscripcion">
+      <index-column name="insc_e_inscripcion"/>
+    </index>
+    <index name="inscripcion_e_finalizacion">
+      <index-column name="insc_e_finalizacion"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="inscripcion_evaluacion_aplicada" idMethod="native" phpName="InscripcionEvaluacionAplicada">
+    <column name="inevap_c_actividad" phpName="InevapCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="inevap_numero_dictacion" phpName="InevapNumeroDictacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="inevap_c_evaluacion" phpName="InevapCEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="inevap_numero_evaluacion" phpName="InevapNumeroEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="inevap_c_trabajador" phpName="InevapCTrabajador" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="inevap_e_inscripcion_evaluacion_aplicada" phpName="InevapEInscripcionEvaluacionAplicada" type="INTEGER"/>
+    <column name="inevap_vigente" phpName="InevapVigente" type="INTEGER" size="1"/>
+    <column name="inevap_r_fecha_creacion" phpName="InevapRFechaCreacion" type="TIMESTAMP"/>
+    <column name="inevap_r_fecha_modificacion" phpName="InevapRFechaModificacion" type="TIMESTAMP"/>
+    <column name="inevap_r_usuario" phpName="InevapRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="e_inscripcion_evaluacion_aplicada" name="inscripcion_evaluacion_aplicada_eiea_fk" onUpdate="CASCADE">
+      <reference local="inevap_e_inscripcion_evaluacion_aplicada" foreign="eiea_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="evaluacion_aplicada" name="inscripcion_evaluacion_aplicada_evaluacion_aplicada_fk" onUpdate="CASCADE">
+      <reference local="inevap_c_actividad" foreign="evap_c_actividad"/>
+      <reference local="inevap_numero_dictacion" foreign="evap_numero_dictacion"/>
+      <reference local="inevap_c_evaluacion" foreign="evap_c_evaluacion"/>
+      <reference local="inevap_numero_evaluacion" foreign="evap_numero_evaluacion"/>
+    </foreign-key>
+    <foreign-key foreignTable="inscripcion" name="inscripcion_evaluacion_aplicada_inscripcion_fk" onUpdate="CASCADE">
+      <reference local="inevap_c_actividad" foreign="insc_c_actividad"/>
+      <reference local="inevap_numero_dictacion" foreign="insc_numero_dictacion"/>
+      <reference local="inevap_c_trabajador" foreign="insc_c_trabajador"/>
+    </foreign-key>
+    <index name="inscripcion_evaluacion_aplicada_evaluacion_aplicada">
+      <index-column name="inevap_c_actividad"/>
+      <index-column name="inevap_numero_dictacion"/>
+      <index-column name="inevap_c_evaluacion"/>
+      <index-column name="inevap_numero_evaluacion"/>
+    </index>
+    <index name="inscripcion_evaluacion_aplicada_inscripcion">
+      <index-column name="inevap_c_actividad"/>
+      <index-column name="inevap_numero_dictacion"/>
+      <index-column name="inevap_c_trabajador"/>
+    </index>
+    <index name="inscripcion_evaluacion_aplicada_eiea">
+      <index-column name="inevap_e_inscripcion_evaluacion_aplicada"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="institucion" idMethod="native" phpName="Institucion">
+    <column name="inst_codigo" phpName="InstCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="inst_identificador" phpName="InstIdentificador" type="INTEGER" size="15"/>
+    <column name="inst_dv" phpName="InstDv" type="VARCHAR" size="1"/>
+    <column name="inst_nombre" phpName="InstNombre" type="VARCHAR" size="255"/>
+    <column name="inst_t_institucion" phpName="InstTInstitucion" type="INTEGER"/>
+    <column name="inst_c_comuna" phpName="InstCComuna" type="VARCHAR" size="11"/>
+    <column name="inst_c_pais" phpName="InstCPais" type="VARCHAR" size="11"/>
+    <column name="inst_telefono" phpName="InstTelefono" type="VARCHAR" size="25"/>
+    <column name="inst_email" phpName="InstEmail" type="VARCHAR" size="255"/>
+    <column name="inst_tratamiento" phpName="InstTratamiento" type="VARCHAR" size="1"/>
+    <column name="inst_direccion" phpName="InstDireccion" type="VARCHAR" size="255"/>
+    <column name="inst_giro" phpName="InstGiro" type="VARCHAR" size="55"/>
+    <column name="inst_r_fecha_creacion" phpName="InstRFechaCreacion" type="TIMESTAMP"/>
+    <column name="inst_r_fecha_modificacion" phpName="InstRFechaModificacion" type="TIMESTAMP"/>
+    <column name="inst_r_usuario" phpName="InstRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="t_institucion" name="institucion_t_institucion_fk" onUpdate="CASCADE">
+      <reference local="inst_t_institucion" foreign="tins_tipo"/>
+    </foreign-key>
+    <index name="institucion_t_institucion">
+      <index-column name="inst_t_institucion"/>
+    </index>
+    <index name="institucion_comuna">
+      <index-column name="inst_c_comuna"/>
+    </index>
+    <index name="institucion_pais">
+      <index-column name="inst_c_pais"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_confirm" idMethod="native" phpName="LoginConfirm">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="data" phpName="Data" type="VARCHAR" size="255" required="true"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="255" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="key" phpName="Key" type="VARCHAR" size="255" required="true"/>
+    <column name="type" phpName="Type" type="VARCHAR" size="25" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_integration" idMethod="native" phpName="LoginIntegration">
+    <column name="user_id" phpName="UserId" type="INTEGER" size="255" primaryKey="true" required="true"/>
+    <column name="facebook" phpName="Facebook" type="VARCHAR" size="255" required="true"/>
+    <column name="twitter" phpName="Twitter" type="VARCHAR" size="255" required="true"/>
+    <column name="google" phpName="Google" type="VARCHAR" size="255" required="true"/>
+    <column name="yahoo" phpName="Yahoo" type="VARCHAR" size="255" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_levels" idMethod="native" phpName="LoginLevels">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="level_name" phpName="LevelName" type="VARCHAR" size="255" required="true"/>
+    <column name="level_disabled" phpName="LevelDisabled" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="redirect" phpName="Redirect" type="VARCHAR" size="255"/>
+    <column name="welcome_email" phpName="WelcomeEmail" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_profile_fields" idMethod="native" phpName="LoginProfileFields">
+    <column name="id" phpName="Id" type="INTEGER" size="255" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="section" phpName="Section" type="VARCHAR" size="255" required="true"/>
+    <column name="type" phpName="Type" type="VARCHAR" size="25" required="true"/>
+    <column name="label" phpName="Label" type="VARCHAR" size="255" required="true"/>
+    <column name="public" phpName="Public" type="TINYINT" required="true"/>
+    <column name="signup" phpName="Signup" type="VARCHAR" size="255" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_profiles" idMethod="native" phpName="LoginProfiles">
+    <column name="p_id" phpName="PId" type="BIGINT" sqlType="bigint(20) unsigned" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="pfield_id" phpName="PfieldId" type="INTEGER" size="255" sqlType="int(255) unsigned" required="true"/>
+    <column name="user_id" phpName="UserId" type="BIGINT" sqlType="bigint(20) unsigned" required="true" defaultValue="0"/>
+    <column name="profile_value" phpName="ProfileValue" type="CLOB"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_settings" idMethod="native" phpName="LoginSettings">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="option_name" phpName="OptionName" type="VARCHAR" size="255" required="true"/>
+    <column name="option_value" phpName="OptionValue" type="CLOB" required="true"/>
+    <unique name="id">
+      <unique-column name="id"/>
+    </unique>
+    <unique name="option_name">
+      <unique-column name="option_name"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_timestamps" idMethod="native" phpName="LoginTimestamps">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="ip" phpName="Ip" type="VARCHAR" size="255" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="login_users" idMethod="native" phpName="LoginUsers">
+    <column name="user_id" phpName="UserId" type="INTEGER" size="8" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="user_level" phpName="UserLevel" type="CLOB" required="true"/>
+    <column name="persona_id" phpName="PersonaId" type="INTEGER" required="true"/>
+    <column name="restricted" phpName="Restricted" type="INTEGER" size="1" required="true" defaultValue="0"/>
+    <column name="username" phpName="Username" type="VARCHAR" size="255" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="255" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="128" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true" defaultExpr="CURRENT_TIMESTAMP"/>
+    <unique name="user_id">
+      <unique-column name="user_id"/>
+    </unique>
+    <unique name="username">
+      <unique-column name="username"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="marcador" idMethod="native" phpName="Marcador">
+    <column name="marc_codigo" phpName="MarcCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="marc_codigo_marcador" phpName="MarcCodigoMarcador" type="VARCHAR" size="255"/>
+    <column name="marc_descripcion" phpName="MarcDescripcion" type="VARCHAR" size="255"/>
+    <column name="marc_imagen" phpName="MarcImagen" type="VARCHAR" size="255" required="true"/>
+    <column name="marc_vigente" phpName="MarcVigente" type="INTEGER" size="1"/>
+    <column name="marc_r_fecha_creacion" phpName="MarcRFechaCreacion" type="TIMESTAMP"/>
+    <column name="marc_r_fecha_modificacion" phpName="MarcRFechaModificacion" type="TIMESTAMP"/>
+    <column name="marc_r_usuario" phpName="MarcRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="objetivo" idMethod="native" phpName="Objetivo">
+    <column name="obje_codigo" phpName="ObjeCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="obje_sigla" phpName="ObjeSigla" type="VARCHAR" size="15"/>
+    <column name="obje_descripcion" phpName="ObjeDescripcion" type="VARCHAR" size="255"/>
+    <column name="obje_r_fecha_creacion" phpName="ObjeRFechaCreacion" type="TIMESTAMP"/>
+    <column name="obje_r_fecha_modificacion" phpName="ObjeRFechaModificacion" type="TIMESTAMP"/>
+    <column name="obje_r_usuario" phpName="ObjeRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="opcion_pregunta" idMethod="native" phpName="OpcionPregunta">
+    <column name="oppr_codigo" phpName="OpprCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="oppr_valor" phpName="OpprValor" type="VARCHAR" size="255"/>
+    <column name="oppr_no_procesa_promedio" phpName="OpprNoProcesaPromedio" type="INTEGER" size="1"/>
+    <column name="oppr_r_fecha_creacion" phpName="OpprRFechaCreacion" type="VARCHAR" size="14"/>
+    <column name="oppr_r_fecha_modificacion" phpName="OpprRFechaModificacion" type="TIMESTAMP"/>
+    <column name="oppr_r_usuario" phpName="OpprRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="pais" idMethod="native" phpName="Pais">
+    <column name="pais_codigo" phpName="PaisCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="nombre_comun" phpName="NombreComun" type="VARCHAR" size="155"/>
+    <column name="nombre_iso" phpName="NombreIso" type="VARCHAR" size="100"/>
+    <column name="codigo_alfa2" phpName="CodigoAlfa2" type="VARCHAR" size="3"/>
+    <column name="codigo_alfa3" phpName="CodigoAlfa3" type="VARCHAR" size="4"/>
+    <column name="codigo_numerico" phpName="CodigoNumerico" type="INTEGER" size="3"/>
+    <column name="observaciones" phpName="Observaciones" type="VARCHAR" size="455"/>
+    <column name="pais_r_fecha_creacion" phpName="PaisRFechaCreacion" type="TIMESTAMP"/>
+    <column name="pais_r_fecha_modificacion" phpName="PaisRFechaModificacion" type="TIMESTAMP" required="true"/>
+    <column name="pais_r_usuario" phpName="PaisRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="persona" idMethod="native" phpName="Persona">
+    <column name="pers_codigo" phpName="PersCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="pers_t_identificador" phpName="PersTIdentificador" type="INTEGER"/>
+    <column name="pers_identificador" phpName="PersIdentificador" type="INTEGER" size="15"/>
+    <column name="pers_dv" phpName="PersDv" type="VARCHAR" size="1"/>
+    <column name="pers_nombre1" phpName="PersNombre1" type="VARCHAR" size="70"/>
+    <column name="pers_nombre2" phpName="PersNombre2" type="VARCHAR" size="70"/>
+    <column name="pers_apellido_paterno" phpName="PersApellidoPaterno" type="VARCHAR" size="79"/>
+    <column name="pers_apellido_materno" phpName="PersApellidoMaterno" type="VARCHAR" size="79"/>
+    <column name="pers_sexo" phpName="PersSexo" type="VARCHAR" size="1"/>
+    <column name="pers_fecha_nacimiento" phpName="PersFechaNacimiento" type="VARCHAR" size="19"/>
+    <column name="pers_c_estado_civil" phpName="PersCEstadoCivil" type="INTEGER"/>
+    <column name="pers_c_escolaridad" phpName="PersCEscolaridad" type="INTEGER"/>
+    <column name="pers_c_pais_origen" phpName="PersCPaisOrigen" type="INTEGER"/>
+    <column name="pers_email" phpName="PersEmail" type="VARCHAR" size="255"/>
+    <column name="pers_movil" phpName="PersMovil" type="VARCHAR" size="55"/>
+    <column name="pers_titulo" phpName="PersTitulo" type="VARCHAR" size="55"/>
+    <column name="pers_grado" phpName="PersGrado" type="VARCHAR" size="55"/>
+    <column name="pers_r_fecha_creacion" phpName="PersRFechaCreacion" type="TIMESTAMP"/>
+    <column name="pers_r_fecha_modificacion" phpName="PersRFechaModificacion" type="TIMESTAMP"/>
+    <column name="pers_r_usuario" phpName="PersRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="escolaridad" name="persona_escolaridad_fk" onUpdate="CASCADE">
+      <reference local="pers_c_escolaridad" foreign="esco_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="estado_civil" name="persona_estado_civil_fk" onUpdate="CASCADE">
+      <reference local="pers_c_estado_civil" foreign="esci_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="pais" name="persona_pais_fk" onUpdate="CASCADE">
+      <reference local="pers_c_pais_origen" foreign="pais_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="t_identificador" name="persona_t_identificador_fk" onUpdate="CASCADE">
+      <reference local="pers_t_identificador" foreign="tide_tipo"/>
+    </foreign-key>
+    <index name="persona_t_identificador">
+      <index-column name="pers_t_identificador"/>
+    </index>
+    <index name="persona_estado_civil">
+      <index-column name="pers_c_estado_civil"/>
+    </index>
+    <index name="persona_c_escolaridad">
+      <index-column name="pers_c_escolaridad"/>
+    </index>
+    <index name="persona_c_pais">
+      <index-column name="pers_c_pais_origen"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="pregunta" idMethod="native" phpName="Pregunta">
+    <column name="preg_codigo" phpName="PregCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="preg_t_pregunta" phpName="PregTPregunta" type="INTEGER"/>
+    <column name="preg_contexto" phpName="PregContexto" type="VARCHAR" size="255"/>
+    <column name="preg_descripcion" phpName="PregDescripcion" type="VARCHAR" size="255"/>
+    <column name="preg_r_fecha_creacion" phpName="PregRFechaCreacion" type="TIMESTAMP"/>
+    <column name="preg_r_fecha_modificacion" phpName="PregRFechaModificacion" type="TIMESTAMP"/>
+    <column name="preg_r_usuario" phpName="PregRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="t_pregunta" name="pregunta_t_pregunta_fk" onUpdate="CASCADE">
+      <reference local="preg_t_pregunta" foreign="tpre_tipo"/>
+    </foreign-key>
+    <index name="pregunta_t_pregunta">
+      <index-column name="preg_t_pregunta"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="provincia" idMethod="native" phpName="Provincia">
+    <column name="prov_codigo" phpName="ProvCodigo" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
+    <column name="prov_nombre" phpName="ProvNombre" type="VARCHAR" size="55"/>
+    <column name="prov_c_region" phpName="ProvCRegion" type="INTEGER"/>
+    <column name="prov_r_fecha_creacion" phpName="ProvRFechaCreacion" type="TIMESTAMP"/>
+    <column name="prov_r_fecha_modificacion" phpName="ProvRFechaModificacion" type="TIMESTAMP"/>
+    <column name="prov_r_usuario" phpName="ProvRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="region" name="provincia_region_fk" onUpdate="CASCADE">
+      <reference local="prov_c_region" foreign="regi_codigo"/>
+    </foreign-key>
+    <index name="provincia_region">
+      <index-column name="prov_c_region"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="region" idMethod="native" phpName="Region">
+    <column name="regi_codigo" phpName="RegiCodigo" type="INTEGER" primaryKey="true" required="true" defaultValue="0"/>
+    <column name="regi_nombre" phpName="RegiNombre" type="VARCHAR" size="55"/>
+    <column name="regi_iso_3166_2_cl" phpName="RegiIso31662Cl" type="VARCHAR" size="10"/>
+    <column name="regi_r_fecha_creacion" phpName="RegiRFechaCreacion" type="TIMESTAMP"/>
+    <column name="regi_r_fecha_modificacion" phpName="RegiRFechaModificacion" type="TIMESTAMP"/>
+    <column name="regi_r_usuario" phpName="RegiRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="respuesta_aplicada" idMethod="native" phpName="RespuestaAplicada">
+    <column name="reap_c_actividad" phpName="ReapCActividad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_numero_dictacion" phpName="ReapNumeroDictacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_c_evaluacion" phpName="ReapCEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_numero_evaluacion" phpName="ReapNumeroEvaluacion" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_c_trabajador" phpName="ReapCTrabajador" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_c_pregunta" phpName="ReapCPregunta" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="reap_c_opcion_pregunta" phpName="ReapCOpcionPregunta" type="INTEGER" required="true"/>
+    <column name="reap_e_respuesta_aplicada" phpName="ReapERespuestaAplicada" type="INTEGER"/>
+    <column name="reap_vigente" phpName="ReapVigente" type="INTEGER" size="1"/>
+    <column name="reap_hash_md5" phpName="ReapHashMd5" type="CHAR" size="32"/>
+    <column name="reap_r_fecha_creacion" phpName="ReapRFechaCreacion" type="TIMESTAMP"/>
+    <column name="reap_r_fecha_modificacion" phpName="ReapRFechaModificacion" type="TIMESTAMP"/>
+    <column name="reap_r_usuario" phpName="ReapRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="e_respuesta_aplicada" name="respuesta_aplicada_e_respuesta_aplicada_fk" onUpdate="CASCADE">
+      <reference local="reap_e_respuesta_aplicada" foreign="erea_estado"/>
+    </foreign-key>
+    <foreign-key foreignTable="inscripcion_evaluacion_aplicada" name="respuesta_aplicada_inscripcion_evaluacion_aplicada_fk" onUpdate="CASCADE">
+      <reference local="reap_c_actividad" foreign="inevap_c_actividad"/>
+      <reference local="reap_numero_dictacion" foreign="inevap_numero_dictacion"/>
+      <reference local="reap_c_evaluacion" foreign="inevap_c_evaluacion"/>
+      <reference local="reap_numero_evaluacion" foreign="inevap_numero_evaluacion"/>
+      <reference local="reap_c_trabajador" foreign="inevap_c_trabajador"/>
+    </foreign-key>
+    <foreign-key foreignTable="pregunta" name="respuesta_aplicada_pregunta" onUpdate="CASCADE">
+      <reference local="reap_c_pregunta" foreign="preg_codigo"/>
+    </foreign-key>
+    <index name="respuesta_aplicada_inscripcion_evaluacion_aplicada">
+      <index-column name="reap_c_actividad"/>
+      <index-column name="reap_numero_dictacion"/>
+      <index-column name="reap_c_evaluacion"/>
+      <index-column name="reap_numero_evaluacion"/>
+      <index-column name="reap_c_trabajador"/>
+    </index>
+    <index name="respuesta_aplicada_detalle_pregunta">
+      <index-column name="reap_c_pregunta"/>
+      <index-column name="reap_c_opcion_pregunta"/>
+    </index>
+    <index name="respuesta_aplicada_e_respuesta_aplicada">
+      <index-column name="reap_e_respuesta_aplicada"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="seccion" idMethod="native" phpName="Seccion">
+    <column name="secc_codigo" phpName="SeccCodigo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="secc_descripcion" phpName="SeccDescripcion" type="VARCHAR" size="255"/>
+    <column name="secc_vigente" phpName="SeccVigente" type="INTEGER" size="1"/>
+    <column name="secc_r_fecha_creacion" phpName="SeccRFechaCreacion" type="TIMESTAMP"/>
+    <column name="secc_r_fecha_modificacion" phpName="SeccRFechaModificacion" type="TIMESTAMP"/>
+    <column name="secc_r_usuario" phpName="SeccRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_actividad" idMethod="native" phpName="TActividad">
+    <column name="tac_tipo" phpName="TacTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tac_descripcion" phpName="TacDescripcion" type="VARCHAR" size="255"/>
+    <column name="tac_tratamiento" phpName="TacTratamiento" type="VARCHAR" size="1"/>
+    <column name="tac_r_fecha_creacion" phpName="TacRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tac_r_fecha_modificacion" phpName="TacRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tac_r_usuario" phpName="TacRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_calificacion" idMethod="native" phpName="TCalificacion">
+    <column name="tcal_tipo" phpName="TcalTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tcal_descripcion" phpName="TcalDescripcion" type="VARCHAR" size="255"/>
+    <column name="tcal_r_fecha_modificacion" phpName="TcalRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tcal_r_fecha_creacion" phpName="TcalRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tcal_r_usuario" phpName="TcalRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_certificado" idMethod="native" phpName="TCertificado">
+    <column name="tce_tipo" phpName="TceTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tce_descripcion" phpName="TceDescripcion" type="VARCHAR" size="255"/>
+    <column name="tce_r_fecha_creacion" phpName="TceRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tce_r_fecha_modificacion" phpName="TceRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tce_r_usuario" phpName="TceRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_direccion" idMethod="native" phpName="TDireccion">
+    <column name="tdir_tipo" phpName="TdirTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tdir_descripcion" phpName="TdirDescripcion" type="VARCHAR" size="255"/>
+    <column name="tdir_r_fecha_creacion" phpName="TdirRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tdir_r_fecha_modificacion" phpName="TdirRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tdir_r_usuario" phpName="TdirRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_evaluacion" idMethod="native" phpName="TEvaluacion">
+    <column name="tev_tipo" phpName="TevTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tev_descripcion" phpName="TevDescripcion" type="VARCHAR" size="255"/>
+    <column name="tev_r_fecha_creacion" phpName="TevRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tev_r_fecha_modificacion" phpName="TevRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tev_r_usuario" phpName="TevRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_evaluacion_aplicada" idMethod="native" phpName="TEvaluacionAplicada">
+    <column name="teva_tipo" phpName="TevaTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="teva_descripcion" phpName="TevaDescripcion" type="VARCHAR" size="255"/>
+    <column name="teva_r_fecha_modificacion" phpName="TevaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="teva_r_fecha_creacion" phpName="TevaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="teva_r_usuario" phpName="TevaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_hora" idMethod="native" phpName="THora">
+    <column name="tho_tipo" phpName="ThoTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tho_descripcion" phpName="ThoDescripcion" type="VARCHAR" size="255"/>
+    <column name="tho_r_fecha_creacion" phpName="ThoRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tho_r_fecha_modificacion" phpName="ThoRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tho_r_usuario" phpName="ThoRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_identificador" idMethod="native" phpName="TIdentificador">
+    <column name="tide_tipo" phpName="TideTipo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="tide_descripcion" phpName="TideDescripcion" type="VARCHAR" size="255"/>
+    <column name="tide_r_fecha_creacion" phpName="TideRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tide_r_fecha_modificacion" phpName="TideRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tide_r_usuario" phpName="TideRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_institucion" idMethod="native" phpName="TInstitucion">
+    <column name="tins_tipo" phpName="TinsTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tins_descripcion" phpName="TinsDescripcion" type="VARCHAR" size="255"/>
+    <column name="tins_r_fecha_creacion" phpName="TinsRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tins_r_fecha_modificacion" phpName="TinsRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tins_r_usuario" phpName="TinsRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_modalidad" idMethod="native" phpName="TModalidad">
+    <column name="tmo_tipo" phpName="TmoTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tmo_descripcion" phpName="TmoDescripcion" type="VARCHAR" size="255"/>
+    <column name="tmo_r_fecha_creacion" phpName="TmoRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tmo_r_fecha_modificacion" phpName="TmoRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tmo_r_usuario" phpName="TmoRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_moneda" idMethod="native" phpName="TMoneda">
+    <column name="tmon_tipo" phpName="TmonTipo" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="tmon_descripcion" phpName="TmonDescripcion" type="VARCHAR" size="255"/>
+    <column name="tmon_r_fecha_creacion" phpName="TmonRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tmon_r_fecha_modificacion" phpName="TmonRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tmon_r_usuario" phpName="TmonRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_pregunta" idMethod="native" phpName="TPregunta">
+    <column name="tpre_tipo" phpName="TpreTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="tpre_descripcion" phpName="TpreDescripcion" type="VARCHAR" size="255"/>
+    <column name="tpre_r_fecha_creacion" phpName="TpreRFechaCreacion" type="TIMESTAMP"/>
+    <column name="tpre_r_fecha_modificacion" phpName="TpreRFechaModificacion" type="TIMESTAMP"/>
+    <column name="tpre_r_usuario" phpName="TpreRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="t_relacion_faena" idMethod="native" phpName="TRelacionFaena">
+    <column name="trefa_tipo" phpName="TrefaTipo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="trefa_sigla" phpName="TrefaSigla" type="VARCHAR" size="25"/>
+    <column name="trefa_descripcion" phpName="TrefaDescripcion" type="VARCHAR" size="255"/>
+    <column name="trefa_vigente" phpName="TrefaVigente" type="INTEGER" size="1"/>
+    <column name="trefa_r_fecha_creacion" phpName="TrefaRFechaCreacion" type="TIMESTAMP"/>
+    <column name="trefa_r_fecha_modificacion" phpName="TrefaRFechaModificacion" type="TIMESTAMP"/>
+    <column name="trefa_r_usuario" phpName="TrefaRUsuario" type="INTEGER" defaultValue="1"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="trabajador" idMethod="native" phpName="Trabajador">
+    <column name="trab_codigo" phpName="TrabCodigo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="trab_c_persona" phpName="TrabCPersona" type="INTEGER" required="true"/>
+    <column name="trab_c_cargo" phpName="TrabCCargo" type="INTEGER" required="true"/>
+    <column name="trab_c_gerencia" phpName="TrabCGerencia" type="INTEGER" required="true"/>
+    <column name="trab_c_area" phpName="TrabCArea" type="INTEGER" required="true"/>
+    <column name="trab_c_anios_experiencia_cargo" phpName="TrabCAniosExperienciaCargo" type="INTEGER" required="true"/>
+    <column name="trab_fecha_inicio" phpName="TrabFechaInicio" type="VARCHAR" size="20"/>
+    <column name="trab_fecha_termino" phpName="TrabFechaTermino" type="VARCHAR" size="20"/>
+    <column name="trab_vigente" phpName="TrabVigente" type="INTEGER" size="1"/>
+    <column name="trab_r_fecha_creacion" phpName="TrabRFechaCreacion" type="TIMESTAMP"/>
+    <column name="trab_r_fecha_modificacion" phpName="TrabRFechaModificacion" type="TIMESTAMP"/>
+    <column name="trab_r_usuario" phpName="TrabRUsuario" type="INTEGER" defaultValue="1"/>
+    <foreign-key foreignTable="anios_experiencia_cargo" name="trabajador_anios_experiencia_cargo_fk" onUpdate="CASCADE">
+      <reference local="trab_c_anios_experiencia_cargo" foreign="anexca_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="area" name="trabajador_area_fk" onUpdate="CASCADE">
+      <reference local="trab_c_area" foreign="area_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="cargo" name="trabajador_cargo_fk" onUpdate="CASCADE">
+      <reference local="trab_c_cargo" foreign="carg_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="gerencia" name="trabajador_gerencia_fk" onUpdate="CASCADE">
+      <reference local="trab_c_gerencia" foreign="gere_codigo"/>
+    </foreign-key>
+    <foreign-key foreignTable="persona" name="trabajador_persona_fk" onUpdate="CASCADE">
+      <reference local="trab_c_persona" foreign="pers_codigo"/>
+    </foreign-key>
+    <index name="trabajador_persona">
+      <index-column name="trab_c_persona"/>
+    </index>
+    <index name="trabajador_cargo">
+      <index-column name="trab_c_cargo"/>
+    </index>
+    <index name="trabajador_gerencia">
+      <index-column name="trab_c_gerencia"/>
+    </index>
+    <index name="trabajador_area">
+      <index-column name="trab_c_area"/>
+    </index>
+    <index name="trabajador_anios_experiencia_cargo">
+      <index-column name="trab_c_anios_experiencia_cargo"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
